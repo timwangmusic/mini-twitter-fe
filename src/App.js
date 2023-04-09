@@ -1,67 +1,32 @@
 import './App.css';
 import 'bootstrap/dist/css/bootstrap.min.css';
-import Button from 'react-bootstrap/Button';
-import Form from 'react-bootstrap/Form';
 import Container from 'react-bootstrap/Container';
 import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
-import { React, useRef, useEffect, useState } from 'react';
+import { React, useEffect, useState } from 'react';
 import axios from 'axios';
-import { Tweet } from './tweet';
+import { Tweet, NewTweet } from './tweet';
 
-
-function NewTweet() {
-  const tweetContent = useRef();
-  const username = useRef();
-  const submit = async () => {
-    const data = {
-      user: username.current.value,
-      text: tweetContent.current.value,
-    };
-    axios.post(
-      '/tweets',
-      JSON.stringify(data),
-    ).then(
-      console.log
-    ).catch(
-      err => console.error(err)
-    );
-  }
-
-  return (
-    <div>
-      <Form>
-        <Container>
-          <Form.Group>
-            <Row className='justify-content-center'>
-            <Col className='col-auto'>
-                <Form.Control ref={username} placeholder='username'>
-                </Form.Control>
-              </Col>
-              <Col className='col-md-6'>
-                <Form.Control ref={tweetContent} placeholder='new tweet'>
-                </Form.Control>
-              </Col>
-              <Col className='col-auto'><Button type='submit' onClick={submit}>Post</Button>
-              </Col>
-            </Row>
-
-          </Form.Group>
-        </Container>
-      </Form>
-    </div>
-  );
-}
-
-// Displays tweets for a user
-function Tweets({ user }) {
-  const url = `/tweets/${user.name}`;
+// The Tweets component displays tweets for a user
+function Tweets({ user, reloadTweets, setReloadTweets }) {
   const [loading, setLoading] = useState(true);
   const [tweets, setTweets] = useState([]);
 
+  const deleteTweet = async (tweetId) => {
+    axios.delete(`/tweets/${tweetId}?user=${user.name}`)
+      .then(
+        (response) => {
+          console.log(response);
+          setReloadTweets(!reloadTweets);
+        }
+      ).catch(
+        console.error
+      );
+  }
+
   useEffect(() => {
     const fetchTweets = async () => axios.get(
-      url
+      `/tweets/${user.name}`
     ).then(
       (response) => {
         setTweets(response.data.tweets)
@@ -72,7 +37,7 @@ function Tweets({ user }) {
     );
 
     fetchTweets();
-  }, [])
+  }, [reloadTweets, user])
 
   if (loading) {
     return <h2>Loading tweets</h2>
@@ -83,7 +48,7 @@ function Tweets({ user }) {
         <h2>Tweets from {user.name}</h2>
         <Row className='justify-content-center'>
           <Col className='col-auto'>
-            {tweets.map(tweet => <Tweet tweet={tweet} user={user.name} key={tweet.created_at} />)}
+            {tweets.map(tweet => <Tweet tweet={tweet} deleteCallback={() => deleteTweet(tweet.id)} key={tweet.id} />)}
           </Col>
 
         </Row>
@@ -94,17 +59,18 @@ function Tweets({ user }) {
 }
 
 function App() {
-  const user = { name: 'tim' }
+  const [user, setUser] = useState({ name: 'tim' })
+  const [reloadTweets, setReloadTweets] = useState(false);
   return (
     <>
       <div className='App'>
         <h1>Mini Twitter</h1>
-        <NewTweet />
+        <NewTweet user={user} setUser={setUser} reloadTweets={reloadTweets} setReloadTweets={setReloadTweets} />
         <br></br>
         <br></br>
 
         <Container>
-          <Tweets user={user} />
+          <Tweets user={user} reloadTweets={reloadTweets} setReloadTweets={setReloadTweets} />
         </Container>
       </div>
     </>
