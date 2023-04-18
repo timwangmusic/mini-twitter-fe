@@ -5,7 +5,7 @@ import Container from 'react-bootstrap/Container';
 import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
 import Dropdown from 'react-bootstrap/Dropdown';
-import { useRef } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import axios from 'axios';
 
 
@@ -21,10 +21,42 @@ export function Tweet({ tweet, deleteCallback }) {
     )
 }
 
+function UserDropdown({ setUser, setCurrentUser }) {
+    const [usernames, setUsernames] = useState([]);
+
+    const handleSelect = (k, _e) => {
+        setUser({ name: k });
+        setCurrentUser(k);
+    }
+
+    useEffect(() => {
+        const fetchUsers = async () => axios.get('/users')
+            .then((response) => {
+                setUsernames(response.data.users);
+            })
+            .catch(console.error);
+
+        fetchUsers();
+    }, []);
+
+    return (
+        <Dropdown onSelect={handleSelect}>
+            <Dropdown.Toggle variant="success" id="dropdown-basic">
+                Select User
+            </Dropdown.Toggle>
+            <Dropdown.Menu>
+                {
+                    usernames.map(username => <Dropdown.Item key={username} eventKey={username}>{username}</Dropdown.Item>)
+                }
+            </Dropdown.Menu>
+        </Dropdown>
+    )
+}
 
 // The New Tweet component defines a form for posting new tweets
 export function NewTweet({ user, setUser, reloadTweets, setReloadTweets }) {
     const tweetContent = useRef();
+    const [currentUser, setCurrentUser] = useState('guest')
     const handlePost = async (e) => {
         e.preventDefault();
         const data = {
@@ -41,10 +73,6 @@ export function NewTweet({ user, setUser, reloadTweets, setReloadTweets }) {
         );
     }
 
-    const handleSelect = (k, _e) => {
-        setUser({ name: k });
-    }
-
     return (
         <div>
             <Form>
@@ -52,16 +80,10 @@ export function NewTweet({ user, setUser, reloadTweets, setReloadTweets }) {
                     <Form.Group>
                         <Row className='justify-content-center'>
                             <Col className='col-auto'>
-                                <Dropdown onSelect={handleSelect}>
-                                    <Dropdown.Toggle variant="success" id="dropdown-basic">
-                                        Select User
-                                    </Dropdown.Toggle>
-                                    <Dropdown.Menu>
-                                        <Dropdown.Item eventKey='tim'>tim</Dropdown.Item>
-                                        <Dropdown.Item eventKey='batman'>batman</Dropdown.Item>
-                                        <Dropdown.Item eventKey='wesley'>wesley</Dropdown.Item>
-                                    </Dropdown.Menu>
-                                </Dropdown>
+                                <UserDropdown setUser={setUser} setCurrentUser={setCurrentUser}></UserDropdown>
+                            </Col>
+                            <Col className='col-sm-1'>
+                                <p><b>{currentUser}</b></p>
                             </Col>
                             <Col className='col-md-6'>
                                 <Form.Control ref={tweetContent} placeholder='new tweet'>
