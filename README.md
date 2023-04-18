@@ -1,6 +1,6 @@
 # Mini-Twitter Front-end
 
-This is a demo front-end with React.
+This is a demo front-end with React for the [Mini-Twitter](https://github.com/timwangmusic/Mini-Twitter) repo.
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
