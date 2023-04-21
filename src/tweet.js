@@ -55,19 +55,23 @@ function UserDropdown({ setUser, setCurrentUser }) {
 
 // The New Tweet component defines a form for posting new tweets
 export function NewTweet({ user, setUser, reloadTweets, setReloadTweets }) {
-    const tweetContent = useRef();
+    const newTweetContentRef = useRef();
+    const newTweetFormRef = useRef();
     const [currentUser, setCurrentUser] = useState('guest')
     const handlePost = async (e) => {
         e.preventDefault();
         const data = {
             user: user.name,
-            text: tweetContent.current.value,
+            text: newTweetContentRef.current.value,
         };
         axios.post(
             '/tweets',
             JSON.stringify(data),
         ).then(
             setReloadTweets(!reloadTweets)
+        ).then(
+            // clears input after posting
+            () => newTweetFormRef.current.reset()
         ).catch(
             err => console.error(err)
         );
@@ -75,7 +79,7 @@ export function NewTweet({ user, setUser, reloadTweets, setReloadTweets }) {
 
     return (
         <div>
-            <Form>
+            <Form ref={newTweetFormRef}>
                 <Container>
                     <Form.Group>
                         <Row className='justify-content-center'>
@@ -86,13 +90,12 @@ export function NewTweet({ user, setUser, reloadTweets, setReloadTweets }) {
                                 <p><b>{currentUser}</b></p>
                             </Col>
                             <Col className='col-md-6'>
-                                <Form.Control ref={tweetContent} placeholder='new tweet'>
+                                <Form.Control ref={newTweetContentRef} placeholder='new tweet' id='tweet-text-input'>
                                 </Form.Control>
                             </Col>
                             <Col className='col-auto'><Button type='submit' onClick={handlePost}>Post</Button>
                             </Col>
                         </Row>
-
                     </Form.Group>
                 </Container>
             </Form>
