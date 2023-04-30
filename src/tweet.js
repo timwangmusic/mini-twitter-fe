@@ -60,24 +60,29 @@ function UserDropdown({ setUser, setCurrentUser }) {
 
 // The New Tweet component defines a form for posting new tweets
 export function NewTweet({ user, setUser, reloadTweets, setReloadTweets }) {
-  const newTweetContentRef = useRef();
+  const [newTweetText, setNewTweetText] = useState('');
   const newTweetFormRef = useRef();
   const [currentUser, setCurrentUser] = useState("guest");
   const handlePost = async (e) => {
     e.preventDefault();
     const data = {
       user: user.name,
-      text: newTweetContentRef.current.value,
+      text: newTweetText,
     };
     axios
       .post("/tweets", JSON.stringify(data))
       .then(setReloadTweets(!reloadTweets))
+      .then(setNewTweetText(''))
       .then(
         // clears input after posting
         () => newTweetFormRef.current.reset()
       )
       .catch((err) => console.error(err));
   };
+
+  function handleTextareaChange(e) {
+    setNewTweetText(e.target.value);
+  }
 
   return (
     <div>
@@ -98,7 +103,7 @@ export function NewTweet({ user, setUser, reloadTweets, setReloadTweets }) {
               </Col>
               <Col className="col-md-6">
                 <Form.Control
-                  ref={newTweetContentRef}
+                  onChange={handleTextareaChange}
                   placeholder="new tweet"
                   id="tweet-text-input"
                 ></Form.Control>
