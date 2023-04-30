@@ -5,6 +5,7 @@ import Container from "react-bootstrap/Container";
 import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
 import Dropdown from "react-bootstrap/Dropdown";
+import Alert from "react-bootstrap/Alert";
 import { useEffect, useRef, useState } from "react";
 import axios from "axios";
 
@@ -60,23 +61,28 @@ function UserDropdown({ setUser, setCurrentUser }) {
 
 // The New Tweet component defines a form for posting new tweets
 export function NewTweet({ user, setUser, reloadTweets, setReloadTweets }) {
-  const [newTweetText, setNewTweetText] = useState('');
+  const [newTweetText, setNewTweetText] = useState("");
   const newTweetFormRef = useRef();
   const [currentUser, setCurrentUser] = useState("guest");
+  const [status, setStatus] = useState("typing");
+  const [showAlert, setShowAlert] = useState(false);
   const handlePost = async (e) => {
+    setStatus("submitting");
     e.preventDefault();
     const data = {
       user: user.name,
       text: newTweetText,
     };
-    axios
+    await axios
       .post("/tweets", JSON.stringify(data))
       .then(setReloadTweets(!reloadTweets))
-      .then(setNewTweetText(''))
+      .then(setNewTweetText(""))
       .then(
         // clears input after posting
         () => newTweetFormRef.current.reset()
       )
+      .then(setShowAlert(true))
+      .then(setStatus("typing"))
       .catch((err) => console.error(err));
   };
 
@@ -109,14 +115,35 @@ export function NewTweet({ user, setUser, reloadTweets, setReloadTweets }) {
                 ></Form.Control>
               </Col>
               <Col className="col-auto">
-                <Button type="submit" onClick={handlePost}>
+                <Button
+                  type="submit"
+                  onClick={handlePost}
+                  disabled={
+                    newTweetText.length === 0 || status === "submitting"
+                  }
+                >
                   Post
                 </Button>
               </Col>
             </Row>
+            <TweetSentAlert showAlert={showAlert} setShowAlert={setShowAlert} />
           </Form.Group>
         </Container>
       </Form>
     </div>
   );
+}
+
+function TweetSentAlert({ showAlert, setShowAlert }) {
+  if (showAlert) {
+    return (
+      <Row className="justify-content-center">
+        <Col className="col-auto">
+          <Alert onClose={() => setShowAlert(false)} dismissible>
+            Tweet is submitted
+          </Alert>
+        </Col>
+      </Row>
+    );
+  }
 }
