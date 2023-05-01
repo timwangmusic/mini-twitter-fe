@@ -23,12 +23,11 @@ export function Tweet({ tweet, deleteCallback }) {
   );
 }
 
-function UserDropdown({ setUser, setCurrentUser }) {
+function UserDropdown({ setUser }) {
   const [usernames, setUsernames] = useState([]);
 
   const handleSelect = (k, _e) => {
     setUser({ name: k });
-    setCurrentUser(k);
   };
 
   useEffect(() => {
@@ -63,12 +62,11 @@ function UserDropdown({ setUser, setCurrentUser }) {
 export function NewTweet({ user, setUser, reloadTweets, setReloadTweets }) {
   const [newTweetText, setNewTweetText] = useState("");
   const newTweetFormRef = useRef();
-  const [currentUser, setCurrentUser] = useState("guest");
   const [status, setStatus] = useState("typing");
   const [showAlert, setShowAlert] = useState(false);
   const handlePost = async (e) => {
-    setStatus("submitting");
     e.preventDefault();
+    setStatus("submitting");
     const data = {
       user: user.name,
       text: newTweetText,
@@ -99,12 +97,11 @@ export function NewTweet({ user, setUser, reloadTweets, setReloadTweets }) {
               <Col className="col-auto">
                 <UserDropdown
                   setUser={setUser}
-                  setCurrentUser={setCurrentUser}
                 ></UserDropdown>
               </Col>
               <Col className="col-sm-1">
                 <p>
-                  <b>{currentUser}</b>
+                  <b>{user.name}</b>
                 </p>
               </Col>
               <Col className="col-md-6">

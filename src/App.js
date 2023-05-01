@@ -30,7 +30,11 @@ function Tweets({ user, reloadTweets, setReloadTweets }) {
           setTweets(response.data.tweets);
           setLoading(false);
         })
-        .catch((err) => console.log(err));
+        .catch((err) => {
+          console.log(err)
+          setLoading(false);
+        }
+        );
 
     fetchTweets();
   }, [reloadTweets, user]);
@@ -60,7 +64,7 @@ function Tweets({ user, reloadTweets, setReloadTweets }) {
 }
 
 function App() {
-  const [user, setUser] = useState({ name: "tim" });
+  const [user, setUser] = useState({ name: 'guest' });
   const [reloadTweets, setReloadTweets] = useState(false);
   return (
     <>
