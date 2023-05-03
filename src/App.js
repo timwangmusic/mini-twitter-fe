@@ -6,6 +6,7 @@ import Col from "react-bootstrap/Col";
 import { React, useEffect, useState } from "react";
 import axios from "axios";
 import { Tweet, NewTweet } from "./tweet";
+import Nav from "react-bootstrap/Nav";
 
 // The Tweets component displays tweets for a user
 function Tweets({ user, reloadTweets, setReloadTweets }) {
@@ -31,10 +32,9 @@ function Tweets({ user, reloadTweets, setReloadTweets }) {
           setLoading(false);
         })
         .catch((err) => {
-          console.log(err)
+          console.log(err);
           setLoading(false);
-        }
-        );
+        });
 
     fetchTweets();
   }, [reloadTweets, user]);
@@ -64,12 +64,17 @@ function Tweets({ user, reloadTweets, setReloadTweets }) {
 }
 
 function App() {
-  const [user, setUser] = useState({ name: 'guest' });
+  const [user, setUser] = useState({ name: "guest" });
   const [reloadTweets, setReloadTweets] = useState(false);
   return (
     <>
       <div className="App">
-        <h1>Mini Twitter</h1>
+        <Nav>
+          <Nav.Item>
+            <Nav.Link href="/signup">Sign Up</Nav.Link>
+          </Nav.Item>
+        </Nav>
+        <h1 style={{color: '#00acee'}}>Mini Twitter</h1>
         <NewTweet
           user={user}
           setUser={setUser}
