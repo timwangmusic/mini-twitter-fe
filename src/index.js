@@ -5,6 +5,7 @@ import App from "./App";
 import reportWebVitals from "./reportWebVitals";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { SignupForm } from "./signup";
+import { Timeline } from "./timeline";
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(
@@ -12,7 +13,8 @@ root.render(
     <BrowserRouter>
       <Routes>
         <Route path="/" element={<App />} />
-        <Route path="/signup" element={<SignupForm />}></Route>
+        <Route path="/signup" element={<SignupForm />} />
+        <Route path="/timeline" element={<Timeline />} />
       </Routes>
     </BrowserRouter>
   </React.StrictMode>
