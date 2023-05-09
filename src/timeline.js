@@ -6,12 +6,19 @@ import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
 import Card from "react-bootstrap/Card";
 import Button from "react-bootstrap/Button";
+import Nav from "react-bootstrap/Nav";
 
 export function Timeline() {
   const [user, setUser] = useState({ name: "guest" });
   const [refreshFollowingList, setRefreshFollowingList] = useState(false);
   return (
     <>
+      <Nav>
+        <Nav.Item>
+          <Nav.Link href="/">Home</Nav.Link>
+        </Nav.Item>
+      </Nav>
+
       <Container>
         <Row className="justify-content-center">
           <Col className="col-auto">
@@ -22,7 +29,7 @@ export function Timeline() {
           <Col className="col-auto">
             <h2>Following</h2>
             <UserDropdown setUser={setUser} />
-            <h4>Current User: {user.name}</h4>
+            <p>Current user: {user.name}</p>
             <FollowingList
               user={user}
               refresh={refreshFollowingList}
@@ -79,15 +86,19 @@ function FollowingList({ user, refresh, setRefresh }) {
 
   return (
     <>
-      {followingUsers.map((u, idx) => (
-        <FollowingListEntry
-          key={idx}
-          fromUser={user}
-          toUser={{ name: u }}
-          refresh={refresh}
-          setRefresh={setRefresh}
-        />
-      ))}
+      {followingUsers.length > 0 ? (
+        followingUsers.map((u, idx) => (
+          <FollowingListEntry
+            key={idx}
+            fromUser={user}
+            toUser={{ name: u }}
+            refresh={refresh}
+            setRefresh={setRefresh}
+          />
+        ))
+      ) : (
+        <p>Not following anyone.</p>
+      )}
     </>
   );
 }
