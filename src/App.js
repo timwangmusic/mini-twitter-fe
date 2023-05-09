@@ -36,6 +36,7 @@ function App() {
             user={user}
             reloadTweets={reloadTweets}
             setReloadTweets={setReloadTweets}
+            itemsPerPage={5}
           />
         </Container>
       </div>
