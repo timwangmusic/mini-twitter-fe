@@ -11,7 +11,7 @@ export function UserDropdown({ setUser }) {
 
   useEffect(() => {
     const fetchUsers = async () =>
-      axios
+      await axios
         .get("/users")
         .then((response) => {
           setUsernames(response.data.users);

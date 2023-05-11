@@ -23,7 +23,7 @@ function Tweet({ tweet, deleteCallback }) {
 
 function DisplayTweets({ user, tweets, reloadTweets, setReloadTweets }) {
   const deleteTweet = async (tweetId) => {
-    axios
+    await axios
       .delete(`/tweets/${tweetId}?user=${user.name}`)
       .then((response) => {
         console.log(response);
@@ -92,7 +92,7 @@ export function Tweets({ user, reloadTweets, setReloadTweets, itemsPerPage }) {
 
   useEffect(() => {
     const fetchTweets = async () =>
-      axios
+      await axios
         .get(`/tweets/${user.name}`)
         .then((response) => {
           setTweets(response.data.tweets);

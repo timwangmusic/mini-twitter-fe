@@ -73,7 +73,7 @@ function FollowingList({ user, refresh, setRefresh }) {
   const [followingUsers, setFollowingUsers] = useState([]);
   useEffect(() => {
     const fetchFollowing = async () => {
-      axios
+      await axios
         .get("/following?user=" + user.name)
         .then((response) => {
           console.log(response.data);
