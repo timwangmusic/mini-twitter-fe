@@ -22,7 +22,7 @@ export function UserDropdown({ setUser }) {
   }, []);
 
   return (
-    <Dropdown onSelect={handleSelect}>
+    <Dropdown onSelect={handleSelect} data-testid='user-dropdown'>
       <Dropdown.Toggle variant="success" id="dropdown-basic">
         Select User
       </Dropdown.Toggle>

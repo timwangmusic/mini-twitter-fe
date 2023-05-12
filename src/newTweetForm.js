@@ -9,7 +9,6 @@ import { UserDropdown } from "./user";
 import { TweetSentAlert } from "./alerts";
 
 // The New Tweet Form component defines a form for posting new tweets
-
 export function NewTweetForm({ user, setUser, reloadTweets, setReloadTweets }) {
   const [newTweetText, setNewTweetText] = useState("");
   const newTweetFormRef = useRef();
@@ -55,6 +54,7 @@ export function NewTweetForm({ user, setUser, reloadTweets, setReloadTweets }) {
               </Col>
               <Col className="col-md-6">
                 <Form.Control
+                  data-testid="tweet-text-input"
                   onChange={handleTextareaChange}
                   placeholder="new tweet"
                   id="tweet-text-input"
@@ -62,6 +62,7 @@ export function NewTweetForm({ user, setUser, reloadTweets, setReloadTweets }) {
               </Col>
               <Col className="col-auto">
                 <Button
+                  data-testid='tweet-post-btn'
                   type="submit"
                   onClick={handlePost}
                   disabled={
