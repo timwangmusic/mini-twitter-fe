@@ -7,11 +7,16 @@ import { React, useEffect, useState } from "react";
 import axios from "axios";
 import Pagination from "react-bootstrap/Pagination";
 
+const timestampToDate = function (timestamp) {
+  const d = new Date(timestamp);
+  return [d.getFullYear(), d.getMonth(), d.getDate(), 'UTC', d.getUTCHours()].join('-');
+}
+
 function Tweet({ tweet, deleteCallback }) {
   return (
     <Card>
       <Card.Body>
-        <Card.Header style={{ color: "blue" }}>{tweet.created_at}</Card.Header>
+        <Card.Header style={{ color: "#00acee", fontWeight: "bold" }}>{timestampToDate(tweet.created_at)}</Card.Header>
         <Card.Text>{tweet.text}</Card.Text>
         <Button className="btn-warning" onClick={deleteCallback}>
           Delete

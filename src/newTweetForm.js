@@ -45,20 +45,13 @@ export function NewTweetForm({ user, setUser, reloadTweets, setReloadTweets }) {
         <Container>
           <Form.Group>
             <Row className="justify-content-center">
-              <Col className="col-auto">
-                <UserDropdown setUser={setUser}></UserDropdown>
-              </Col>
-              <Col className="col-sm-1">
-                <p style={{ color: "#00acee", fontSize: "1.3em" }}>
-                  <b>{user.name}</b>
-                </p>
-              </Col>
               <Col className="col-md-6">
                 <InputGroup>
+                  <UserDropdown setUser={setUser}></UserDropdown>
                   <Form.Control
                     data-testid="tweet-text-input"
                     onChange={handleTextareaChange}
-                    placeholder="new tweet"
+                    placeholder={`new tweet for ${user.name}`}
                     id="tweet-text-input"
                   ></Form.Control>
                   <Button
