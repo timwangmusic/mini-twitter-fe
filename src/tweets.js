@@ -68,11 +68,12 @@ export function Tweets({ user, reloadTweets, setReloadTweets, itemsPerPage }) {
   );
   const currentTweets = tweets.slice(itemOffset, endOffset);
 
-  const handleBootstrapPageClick = (e) => {
+  const handlePageClick = (e) => {
+    if (e.target.textContent.includes('current')) {
+      return;
+    }
     const pageNumber = Number(e.target.textContent);
-    const newOffset = ((pageNumber - 1) * itemsPerPage) % tweets.length;
-    setItemOffset(newOffset);
-    setCurrentPage(pageNumber);
+    setPageAndItemOffset(pageNumber);
   };
 
   let paginationItems = [];
@@ -81,11 +82,18 @@ export function Tweets({ user, reloadTweets, setReloadTweets, itemsPerPage }) {
       <Pagination.Item
         key={page}
         active={page === currentPage}
-        onClick={handleBootstrapPageClick}
+        onClick={handlePageClick}
       >
         {page}
       </Pagination.Item>
     );
+  }
+
+  function setPageAndItemOffset(page) {
+    setCurrentPage(page);
+
+    const newOffset = ((page - 1) * itemsPerPage) % tweets.length;
+    setItemOffset(newOffset);
   }
 
   // resets when user changes or need to reload tweets
@@ -117,14 +125,25 @@ export function Tweets({ user, reloadTweets, setReloadTweets, itemsPerPage }) {
   if (tweets) {
     return (
       <>
-        <DisplayTweets
-          tweets={currentTweets}
-          user={user}
-          reloadTweets={reloadTweets}
-          setReloadTweets={setReloadTweets}
-        />
-
-        <Pagination>{paginationItems}</Pagination>
+        <Container>
+          <Row style={{ marginBottom: '1em' }}>
+            <DisplayTweets
+              tweets={currentTweets}
+              user={user}
+              reloadTweets={reloadTweets}
+              setReloadTweets={setReloadTweets}
+            />
+          </Row>
+          <Row className="justify-content-center">
+            <Col className="col-auto">
+              <Pagination>
+                <Pagination.Prev onClick={() => { setPageAndItemOffset(Math.max(1, currentPage - 1)) }} />
+                {paginationItems}
+                <Pagination.Next onClick={() => { setPageAndItemOffset(Math.min(pageCount, currentPage + 1)) }} />
+              </Pagination>
+            </Col>
+          </Row>
+        </Container>
       </>
     );
   }
