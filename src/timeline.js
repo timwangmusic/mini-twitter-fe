@@ -7,6 +7,7 @@ import Col from "react-bootstrap/Col";
 import Card from "react-bootstrap/Card";
 import Button from "react-bootstrap/Button";
 import Nav from "react-bootstrap/Nav";
+import { RiHomeHeartLine } from "react-icons/ri";
 
 export function Timeline() {
   const [user, setUser] = useState({ name: "guest" });
@@ -15,7 +16,7 @@ export function Timeline() {
     <>
       <Nav>
         <Nav.Item>
-          <Nav.Link href="/">Home</Nav.Link>
+          <Nav.Link href="/"><RiHomeHeartLine /> Home</Nav.Link>
         </Nav.Item>
       </Nav>
 

@@ -7,6 +7,7 @@ import { useRef, useState } from "react";
 import axios from "axios";
 import Alert from "react-bootstrap/Alert";
 import Nav from "react-bootstrap/Nav";
+import { RiHomeHeartLine } from "react-icons/ri";
 
 export function SignupForm() {
   const [email, setEmail] = useState("");
@@ -50,7 +51,7 @@ export function SignupForm() {
     <>
       <Nav>
         <Nav.Item>
-          <Nav.Link href="/">Home</Nav.Link>
+          <Nav.Link href="/"><RiHomeHeartLine /> Home</Nav.Link>
         </Nav.Item>
       </Nav>
       <h1 style={{ textAlign: "center", color: "#00acee" }}>Mini Twitter</h1>

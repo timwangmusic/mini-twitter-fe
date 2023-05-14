@@ -5,6 +5,8 @@ import { React, useState } from "react";
 import { NewTweetForm } from "./newTweetForm";
 import Nav from "react-bootstrap/Nav";
 import { Tweets } from "./tweets";
+import { MdOutlineViewTimeline } from "react-icons/md";
+import { BsPersonPlus } from "react-icons/bs";
 
 function App() {
   const [user, setUser] = useState({ name: "guest" });
@@ -15,10 +17,14 @@ function App() {
       <div className="App">
         <Nav>
           <Nav.Item>
-            <Nav.Link href="/signup">Signup</Nav.Link>
+            <Nav.Link href="/signup">
+              <BsPersonPlus /> Signup
+            </Nav.Link>
           </Nav.Item>
           <Nav.Item>
-            <Nav.Link href="/timeline">Timeline</Nav.Link>
+            <Nav.Link href="/timeline">
+              <MdOutlineViewTimeline /> Timeline
+            </Nav.Link>
           </Nav.Item>
         </Nav>
         <h1 style={{ color: "#00acee" }}>Mini Twitter</h1>
@@ -27,9 +33,9 @@ function App() {
           setUser={setUser}
           reloadTweets={reloadTweets}
           setReloadTweets={setReloadTweets}
+          key={user.name}
         />
-        <br></br>
-        <br></br>
+        <hr />
 
         <Container>
           <Tweets
