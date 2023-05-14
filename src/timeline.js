@@ -23,12 +23,11 @@ export function Timeline() {
       <Container>
         <Row className="justify-content-center">
           <Col className="col-auto">
-            <h1 style={{ color: "#00acee" }}>Mini Twitter</h1>
+            <h1 style={{ color: "#00acee", marginBottom: "1em" }}>Mini Twitter</h1>
           </Col>
         </Row>
         <Row className="justify-content-center">
           <Col className="col-auto">
-            <h2>Following</h2>
             <UserDropdown setUser={setUser} />
             <p>Current user: {user.name}</p>
             <FollowingList

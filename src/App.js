@@ -27,7 +27,7 @@ function App() {
             </Nav.Link>
           </Nav.Item>
         </Nav>
-        <h1 style={{ color: "#00acee" }}>Mini Twitter</h1>
+        <h1 style={{ color: "#00acee", marginBottom: "1em"}}>Mini Twitter</h1>
         <NewTweetForm
           user={user}
           setUser={setUser}

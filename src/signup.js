@@ -54,7 +54,7 @@ export function SignupForm() {
           <Nav.Link href="/"><RiHomeHeartLine /> Home</Nav.Link>
         </Nav.Item>
       </Nav>
-      <h1 style={{ textAlign: "center", color: "#00acee" }}>Mini Twitter</h1>
+      <h1 style={{ textAlign: "center", color: "#00acee", marginBottom: '1em' }}>Mini Twitter</h1>
       <Container>
         <Row className="justify-content-center">
           <Col className="col-4">
