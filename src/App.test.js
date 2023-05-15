@@ -9,10 +9,14 @@ test('renders basic components', async () => {
       tweets: []
     }
     )
+
   render(<App />);
   const appTitle = screen.getByRole('heading', { name: /Mini Twitter/i });
   expect(appTitle).toBeInTheDocument();
 
-  const dropdown = screen.getByTestId('user-dropdown');
-  expect(dropdown).toBeInTheDocument();
+  const timelineLink = screen.getByRole('link', { name: /timeline/i });
+  expect(timelineLink).toBeInTheDocument();
+
+  const signupLink = screen.getByRole('link', { name: /signup/i });
+  expect(signupLink).toBeInTheDocument();
 });
