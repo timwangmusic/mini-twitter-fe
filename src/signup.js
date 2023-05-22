@@ -3,7 +3,7 @@ import Button from "react-bootstrap/Button";
 import Container from "react-bootstrap/Container";
 import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
-import { useRef, useState } from "react";
+import { useRef, useState, useEffect } from "react";
 import axios from "axios";
 import Alert from "react-bootstrap/Alert";
 import Nav from "react-bootstrap/Nav";
@@ -15,6 +15,10 @@ export function SignupForm() {
   const [username, setUsername] = useState("");
   const [status, setStatus] = useState("pending");
   const formRef = useRef();
+
+  useEffect(() => {
+    document.title = "Mini Twitter";
+  }, []);
 
   async function handleSubmit(e) {
     e.preventDefault();
@@ -51,10 +55,16 @@ export function SignupForm() {
     <>
       <Nav>
         <Nav.Item>
-          <Nav.Link href="/"><RiHomeHeartLine /> Home</Nav.Link>
+          <Nav.Link href="/">
+            <RiHomeHeartLine /> Home
+          </Nav.Link>
         </Nav.Item>
       </Nav>
-      <h1 style={{ textAlign: "center", color: "#00acee", marginBottom: '1em' }}>Mini Twitter</h1>
+      <h1
+        style={{ textAlign: "center", color: "#00acee", marginBottom: "1em" }}
+      >
+        Mini Twitter
+      </h1>
       <Container>
         <Row className="justify-content-center">
           <Col className="col-4">

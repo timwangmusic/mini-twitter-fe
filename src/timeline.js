@@ -12,18 +12,26 @@ import { RiHomeHeartLine } from "react-icons/ri";
 export function Timeline() {
   const [user, setUser] = useState({ name: "guest" });
   const [refreshFollowingList, setRefreshFollowingList] = useState(false);
+  useEffect(() => {
+    document.title = "Mini Twitter";
+  }, []);
+
   return (
     <>
       <Nav>
         <Nav.Item>
-          <Nav.Link href="/"><RiHomeHeartLine /> Home</Nav.Link>
+          <Nav.Link href="/">
+            <RiHomeHeartLine /> Home
+          </Nav.Link>
         </Nav.Item>
       </Nav>
 
       <Container>
         <Row className="justify-content-center">
           <Col className="col-auto">
-            <h1 style={{ color: "#00acee", marginBottom: "1em" }}>Mini Twitter</h1>
+            <h1 style={{ color: "#00acee", marginBottom: "1em" }}>
+              Mini Twitter
+            </h1>
           </Col>
         </Row>
         <Row className="justify-content-center">

@@ -1,7 +1,7 @@
 import "./App.css";
 import "bootstrap/dist/css/bootstrap.min.css";
 import Container from "react-bootstrap/Container";
-import { React, useState } from "react";
+import { React, useEffect, useState } from "react";
 import { NewTweetForm } from "./newTweetForm";
 import Nav from "react-bootstrap/Nav";
 import { Tweets } from "./tweets";
@@ -11,6 +11,10 @@ import { BsPersonPlus } from "react-icons/bs";
 function App() {
   const [user, setUser] = useState({ name: "guest" });
   const [reloadTweets, setReloadTweets] = useState(false);
+
+  useEffect(() => {
+    document.title = "Mini Twitter";
+  }, []);
 
   return (
     <>
@@ -27,7 +31,7 @@ function App() {
             </Nav.Link>
           </Nav.Item>
         </Nav>
-        <h1 style={{ color: "#00acee", marginBottom: "1em"}}>Mini Twitter</h1>
+        <h1 style={{ color: "#00acee", marginBottom: "1em" }}>Mini Twitter</h1>
         <NewTweetForm
           user={user}
           setUser={setUser}
