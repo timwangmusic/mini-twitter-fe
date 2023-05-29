@@ -9,7 +9,7 @@ import Pagination from "react-bootstrap/Pagination";
 
 const timestampToDate = function (timestamp) {
   const d = new Date(timestamp);
-  return [d.getFullYear(), d.getMonth(), d.getDate(), 'UTC', d.getUTCHours()].join('-');
+  return [d.getFullYear(), d.getMonth()+1, d.getDate(), 'UTC', d.getUTCHours()].join('-');
 }
 
 function Tweet({ tweet, deleteCallback }) {
