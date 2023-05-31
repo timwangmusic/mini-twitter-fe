@@ -8,6 +8,7 @@ import Card from "react-bootstrap/Card";
 import Button from "react-bootstrap/Button";
 import Nav from "react-bootstrap/Nav";
 import { RiHomeHeartLine } from "react-icons/ri";
+import { Tweet } from "./tweets";
 
 export function Timeline() {
   const [user, setUser] = useState({ name: "guest" });
@@ -37,12 +38,14 @@ export function Timeline() {
         <Row className="justify-content-center">
           <Col className="col-auto">
             <UserDropdown setUser={setUser} />
-            <p>Current user: {user.name}</p>
+            <h2>{user.name} is following:</h2>
             <FollowingList
               user={user}
               refresh={refreshFollowingList}
               setRefresh={setRefreshFollowingList}
             />
+            <hr />
+            <DisplayTimeline user={user} refresh={refreshFollowingList} />
           </Col>
         </Row>
       </Container>
@@ -67,7 +70,9 @@ function FollowingListEntry({ fromUser, toUser, setRefresh, refresh }) {
   return (
     <Card>
       <Card.Body>
-        <Card.Text>{toUser.name}</Card.Text>
+        <Card.Text style={{ color: "#00acee", fontWeight: "bold" }}>
+          {toUser.name}
+        </Card.Text>
         <Button size="sm" variant="warning" onClick={unfollowUser}>
           unfollow
         </Button>
@@ -108,5 +113,33 @@ function FollowingList({ user, refresh, setRefresh }) {
         <p>Not following anyone.</p>
       )}
     </>
+  );
+}
+
+function DisplayTimeline({ user, refresh }) {
+  const [tweets, setTweets] = useState([]);
+
+  useEffect(() => {
+    const fetchTimeline = async () => {
+      await axios
+        .get(`/timeline/${user.name}`)
+        .then((response) => setTweets(response.data.result))
+        .catch(console.error);
+    };
+
+    fetchTimeline();
+  }, [user, refresh]);
+
+  return (
+    <Container>
+      <h2>Timeline for {user.name}</h2>
+      <Row className="justify-content-center">
+        <Col className="col-auto">
+          {tweets.map((tweet) => (
+            <Tweet tweet={tweet} key={tweet.id} allowDelete={false} />
+          ))}
+        </Col>
+      </Row>
+    </Container>
   );
 }

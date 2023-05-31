@@ -9,18 +9,30 @@ import Pagination from "react-bootstrap/Pagination";
 
 const timestampToDate = function (timestamp) {
   const d = new Date(timestamp);
-  return [d.getFullYear(), d.getMonth()+1, d.getDate(), 'UTC', d.getUTCHours()].join('-');
-}
+  return [
+    d.getFullYear(),
+    d.getMonth() + 1,
+    d.getDate(),
+    "UTC",
+    d.getUTCHours(),
+  ].join("-");
+};
 
-function Tweet({ tweet, deleteCallback }) {
+export function Tweet({ tweet, deleteCallback, allowDelete }) {
   return (
     <Card>
       <Card.Body>
-        <Card.Header style={{ color: "#00acee", fontWeight: "bold" }}>{timestampToDate(tweet.created_at)}</Card.Header>
+        <Card.Title style={{ color: "#00acee", fontWeight: "bold", fontSize: "1em" }}>
+          {[tweet.user, "posted on", timestampToDate(tweet.created_at)].join(
+            " "
+          )}
+        </Card.Title>
         <Card.Text>{tweet.text}</Card.Text>
-        <Button className="btn-warning" onClick={deleteCallback}>
-          Delete
-        </Button>
+        {allowDelete ? (
+          <Button className="btn-warning" onClick={deleteCallback}>
+            Delete
+          </Button>
+        ) : null}
       </Card.Body>
     </Card>
   );
@@ -46,6 +58,7 @@ function DisplayTweets({ user, tweets, reloadTweets, setReloadTweets }) {
               tweet={tweet}
               deleteCallback={() => deleteTweet(tweet.id)}
               key={tweet.id}
+              allowDelete={true}
             />
           ))}
         </Col>
@@ -69,7 +82,7 @@ export function Tweets({ user, reloadTweets, setReloadTweets, itemsPerPage }) {
   const currentTweets = tweets.slice(itemOffset, endOffset);
 
   const handlePageClick = (e) => {
-    if (e.target.textContent.includes('current')) {
+    if (e.target.textContent.includes("current")) {
       return;
     }
     const pageNumber = Number(e.target.textContent);
@@ -126,7 +139,7 @@ export function Tweets({ user, reloadTweets, setReloadTweets, itemsPerPage }) {
     return (
       <>
         <Container>
-          <Row style={{ marginBottom: '1em' }}>
+          <Row style={{ marginBottom: "1em" }}>
             <DisplayTweets
               tweets={currentTweets}
               user={user}
@@ -137,9 +150,17 @@ export function Tweets({ user, reloadTweets, setReloadTweets, itemsPerPage }) {
           <Row className="justify-content-center">
             <Col className="col-auto">
               <Pagination>
-                <Pagination.Prev onClick={() => { setPageAndItemOffset(Math.max(1, currentPage - 1)) }} />
+                <Pagination.Prev
+                  onClick={() => {
+                    setPageAndItemOffset(Math.max(1, currentPage - 1));
+                  }}
+                />
                 {paginationItems}
-                <Pagination.Next onClick={() => { setPageAndItemOffset(Math.min(pageCount, currentPage + 1)) }} />
+                <Pagination.Next
+                  onClick={() => {
+                    setPageAndItemOffset(Math.min(pageCount, currentPage + 1));
+                  }}
+                />
               </Pagination>
             </Col>
           </Row>
