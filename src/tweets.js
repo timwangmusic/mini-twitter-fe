@@ -20,16 +20,18 @@ const timestampToDate = function (timestamp) {
 
 export function Tweet({ tweet, deleteCallback, allowDelete }) {
   return (
-    <Card>
+    <Card bg="light">
       <Card.Body>
-        <Card.Title style={{ color: "#00acee", fontWeight: "bold", fontSize: "1em" }}>
+        <Card.Title
+          style={{ color: "#00acee", fontWeight: "bold", fontSize: "1em" }}
+        >
           {[tweet.user, "posted on", timestampToDate(tweet.created_at)].join(
             " "
           )}
         </Card.Title>
         <Card.Text>{tweet.text}</Card.Text>
         {allowDelete ? (
-          <Button className="btn-warning" onClick={deleteCallback}>
+          <Button variant="outline-warning" size="sm" onClick={deleteCallback}>
             Delete
           </Button>
         ) : null}
