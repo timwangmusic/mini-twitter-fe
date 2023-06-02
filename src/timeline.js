@@ -35,17 +35,19 @@ export function Timeline() {
             </h1>
           </Col>
         </Row>
+        <UserDropdown setUser={setUser} />
+        <hr />
         <Row className="justify-content-center">
-          <Col className="col-auto">
-            <UserDropdown setUser={setUser} />
-            <h2>{user.name} is following:</h2>
+          <Col>
+            <DisplayTimeline user={user} refresh={refreshFollowingList} />
+          </Col>
+          <Col>
+            <h2>Following</h2>
             <FollowingList
               user={user}
               refresh={refreshFollowingList}
               setRefresh={setRefreshFollowingList}
             />
-            <hr />
-            <DisplayTimeline user={user} refresh={refreshFollowingList} />
           </Col>
         </Row>
       </Container>
@@ -73,7 +75,7 @@ function FollowingListEntry({ fromUser, toUser, setRefresh, refresh }) {
         <Card.Text style={{ color: "#00acee", fontWeight: "bold" }}>
           {toUser.name}
         </Card.Text>
-        <Button size="sm" variant="warning" onClick={unfollowUser}>
+        <Button size="sm" variant="outline-warning" onClick={unfollowUser}>
           unfollow
         </Button>
       </Card.Body>
@@ -131,15 +133,11 @@ function DisplayTimeline({ user, refresh }) {
   }, [user, refresh]);
 
   return (
-    <Container>
+    <>
       <h2>Timeline for {user.name}</h2>
-      <Row className="justify-content-center">
-        <Col className="col-auto">
-          {tweets.map((tweet) => (
-            <Tweet tweet={tweet} key={tweet.id} allowDelete={false} />
-          ))}
-        </Col>
-      </Row>
-    </Container>
+      {tweets.map((tweet) => (
+        <Tweet tweet={tweet} key={tweet.id} allowDelete={false} />
+      ))}
+    </>
   );
 }
