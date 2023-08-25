@@ -59,7 +59,7 @@ function FollowingListEntry({ fromUser, toUser, setRefresh, refresh }) {
   const unfollowUser = async () => {
     await axios
       .post(
-        "/unfollows",
+        "/users/unfollow",
         JSON.stringify({
           from: fromUser.name,
           to: toUser.name,
@@ -89,7 +89,7 @@ function FollowingList({ user, refresh, setRefresh }) {
   useEffect(() => {
     const fetchFollowing = async () => {
       await axios
-        .get("/following?user=" + user.name)
+        .get("/users/following?user=" + user.name)
         .then((response) => {
           console.log(response.data);
           setFollowingUsers(response.data.following);

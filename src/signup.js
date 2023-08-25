@@ -24,7 +24,7 @@ export function SignupForm() {
     e.preventDefault();
     await axios
       .post(
-        "/users",
+        "/users/create",
         JSON.stringify({
           Username: username,
           Email: email,
